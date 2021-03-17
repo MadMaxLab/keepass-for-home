@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021 Maxim Bukvich
+ */
+
 package com.bukvich.utils.keepassforhome;
 
 import org.junit.jupiter.api.Test;
