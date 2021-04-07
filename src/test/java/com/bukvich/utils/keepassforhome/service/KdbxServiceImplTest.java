@@ -38,11 +38,13 @@ class KdbxServiceImplTest {
         Map<String, String> availableDatabases = Map.of(EXISTED_DB_NAME, dbFullPath);
         dbConfig = new DatabasesConfig();
         dbConfig.setAvailableDatabases(availableDatabases);
+        kdbxService = new KdbxServiceImpl(dbConfig);
 
         SimpleDatabase db = new SimpleDatabase();
         db.setName(EXISTED_DB_NAME);
-        db.save(new KdbxCreds(TEST_PASSWORD.getBytes(StandardCharsets.UTF_8)), new FileOutputStream(dbFullPath));
-        kdbxService = new KdbxServiceImpl(dbConfig);
+        try (FileOutputStream fos = new FileOutputStream(dbFullPath)) {
+            db.save(new KdbxCreds(TEST_PASSWORD.getBytes(StandardCharsets.UTF_8)), fos);
+        }
     }
 
     @Test
