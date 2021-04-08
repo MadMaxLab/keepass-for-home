@@ -5,6 +5,7 @@
 package com.bukvich.utils.keepassforhome.service;
 
 import com.bukvich.utils.keepassforhome.configuration.DatabasesConfig;
+import com.bukvich.utils.keepassforhome.dto.EntryDto;
 import com.google.common.base.Strings;
 import lombok.RequiredArgsConstructor;
 import org.linguafranca.pwdb.kdbx.KdbxCreds;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * A standard implementation of KdbxService interface
@@ -41,5 +44,19 @@ public class KdbxServiceImpl implements KdbxService {
         SimpleDatabase db = SimpleDatabase.load(new KdbxCreds(password.getBytes(StandardCharsets.UTF_8)),
                 new FileInputStream(dbPath));
         dbCache.put(dbName, db);
+    }
+
+    @Override
+    public List<EntryDto> findEntry(String dbName, String title) {
+        if (Strings.isNullOrEmpty(dbName) || Strings.isNullOrEmpty(title)) {
+            throw new IllegalArgumentException("DbName and Title should be not null or empty!");
+        }
+        SimpleDatabase db = dbCache.get(dbName);
+        if (db == null) {
+            throw new IllegalStateException("Db " + dbName + " is not opened. Please open db before searching.");
+        }
+        return db.findEntries(title).stream()
+                .map(simpleEntry -> new EntryDto(simpleEntry.getUuid(), simpleEntry.getTitle(), simpleEntry.getUsername()))
+                .collect(Collectors.toList());
     }
 }
