@@ -13,9 +13,12 @@ import java.util.List;
  *
  * @author Maxim Bukvich
  */
-public interface KdbxService {
+public interface
+KdbxService {
 
     void openDb(String dbName, String password) throws Exception;
 
     List<EntryDto> findEntry(String dbName, String title);
+
+    Iterable<String> showDbList();
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keepass for home</title>
+</head>
+<body>
+    <h3>Search for entities</h3>
+    <form action="/find_all" method="get">
+        <label for="dbname">Searching in DB:</label>
+        <input id="dbname" th:value="${credentials.name}" disabled>
+        <br><br>
+        <label for="ename">Entity name:</label>
+        <input id="ename" th:field="${entityName}">
+        <br><br>
+        <button type="submit">Find</button>
+    </form>
+</body>
+</html>

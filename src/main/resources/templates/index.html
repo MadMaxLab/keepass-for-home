@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keepass for home</title>
+</head>
+<body>
+<h2>Welcome to Keepass for home!</h2>
+<h3> Please choose a DB to search</h3>
+
+<form action="/open" th:object="${credentials}" method="post">
+    <label for="dbnames">DB name:</label>
+    <select id="dbnames" th:field="*{name}">
+        <option th:each="dbName:${dbList}" th:value="${dbName}" th:text="${dbName}" >
+        </option>
+    </select>
+    <br><br>
+    <label for="passinput">Password:</label>
+    <input id="passinput" th:field="*{password}" type="password" th:label="Password">
+    <button type="submit">Enter</button>
+</form>
+
+
+</body>
+</html>

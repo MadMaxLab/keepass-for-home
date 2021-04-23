@@ -59,4 +59,9 @@ public class KdbxServiceImpl implements KdbxService {
                 .map(simpleEntry -> new EntryDto(simpleEntry.getUuid(), simpleEntry.getTitle(), simpleEntry.getUsername()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Iterable<String> showDbList() {
+        return databasesConfig.getAvailableDatabases().keySet();
+    }
 }

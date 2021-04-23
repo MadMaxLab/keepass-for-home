@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -121,4 +122,20 @@ class KdbxServiceImplTest {
         assertThatThrownBy(() -> kdbxService.findEntry(EXISTED_DB_NAME, entryName))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void showDbListShouldShowAllDb() {
+        assertThat(kdbxService.showDbList())
+                .isNotEmpty()
+                .contains(EXISTED_DB_NAME);
+    }
+
+    @Test
+    void showDbShouldReturnEmptySetIfConfigIsNotSet() {
+        dbConfig.setAvailableDatabases(Collections.emptyMap());
+        assertThat(kdbxService.showDbList()).isEmpty();
+    }
+
+
+
 }
